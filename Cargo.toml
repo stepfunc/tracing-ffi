@@ -1,6 +1,6 @@
 [workspace]
 
 members = [
-    "tracing-ffi",
-    "tracing-ffi-schema",
+    "test",
+    "sfio-tracing-ffi",
 ]

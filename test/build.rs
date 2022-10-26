@@ -10,7 +10,8 @@ fn main() {
         Path::new(&env::var_os("OUT_DIR").unwrap()).join("implementation.rs"),
     )
     .unwrap();
-    file.write_all(tracing_ffi_schema::get_impl_file().as_bytes())
+
+    file.write_all(sfio_tracing_ffi::get_impl_file().as_bytes())
         .unwrap();
 
     let settings = LibrarySettings::create(
@@ -54,9 +55,9 @@ fn main() {
         .build()
         .unwrap();
 
-    tracing_ffi_schema::define(&mut builder, error_type).unwrap();
+    sfio_tracing_ffi::define(&mut builder, error_type).unwrap();
 
     let lib = builder.build().unwrap();
 
-    rust_oo_bindgen::RustCodegen::new(&lib).generate().unwrap();
+    oo_bindgen::backend::rust::generate_ffi(&lib).unwrap();
 }
