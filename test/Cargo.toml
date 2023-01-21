@@ -10,5 +10,5 @@ tracing-subscriber = "0.2"
 lazy_static = "1.4.0"
 
 [build-dependencies]
-oo-bindgen = "0.7"
+oo-bindgen = "0.8"
 sfio-tracing-ffi = { path = "../sfio-tracing-ffi" }
