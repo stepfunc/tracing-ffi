@@ -1,3 +1,5 @@
+//! Build script for tests
+
 use oo_bindgen::model::*;
 use std::env;
 use std::io::Write;

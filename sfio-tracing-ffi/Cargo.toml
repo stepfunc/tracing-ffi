@@ -9,4 +9,7 @@ homepage = "https://github.com/stepfunc/tracing-ffi"
 repository = "https://github.com/stepfunc/tracing-ffi"
 
 [dependencies]
-oo-bindgen = "0.7"
+oo-bindgen = { workspace = true }
+
+[lints]
+workspace = true
