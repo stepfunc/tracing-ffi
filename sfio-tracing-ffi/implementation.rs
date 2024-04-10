@@ -8,7 +8,7 @@ use tracing_subscriber::fmt::MakeWriter;
 use crate::ffi;
 
 thread_local! {
-   pub static LOG_BUFFER: std::cell::RefCell<Vec<u8>> = std::cell::RefCell::new(Vec::new());
+   pub static LOG_BUFFER: std::cell::RefCell<Vec<u8>> = const { std::cell::RefCell::new(Vec::new()) };
 }
 
 #[derive(Copy, Clone, Debug)]
@@ -18,15 +18,14 @@ pub fn configure_logging(
     config: ffi::LoggingConfig,
     handler: ffi::Logger,
 ) -> Result<(), TracingInitError> {
-    tracing::subscriber::set_global_default(adapter(config, handler))
-        .map_err(|_| TracingInitError)
+    tracing::subscriber::set_global_default(adapter(config, handler)).map_err(|_| TracingInitError)
 }
 
 struct ThreadLocalBufferWriter;
 
 struct ThreadLocalMakeWriter;
 
-impl MakeWriter for ThreadLocalMakeWriter {
+impl<'a> MakeWriter<'a> for ThreadLocalMakeWriter {
     type Writer = ThreadLocalBufferWriter;
 
     fn make_writer(&self) -> Self::Writer {
@@ -82,7 +81,7 @@ impl ffi::LoggingConfig {
                 }
             }
             ffi::TimeFormat::System => {
-                let builder = builder.with_timer(SystemTime::default());
+                let builder = builder.with_timer(SystemTime);
                 match self.output_format() {
                     ffi::LogOutputFormat::Text => Box::new(builder.finish()),
                     ffi::LogOutputFormat::Json => Box::new(builder.json().finish()),

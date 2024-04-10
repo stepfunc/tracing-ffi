@@ -1,3 +1,5 @@
+//! Test crate
+
 pub mod ffi;
 mod implementation;
 

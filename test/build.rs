@@ -1,3 +1,5 @@
+//! builds the test crate
+
 use oo_bindgen::model::*;
 use std::env;
 use std::io::Write;
